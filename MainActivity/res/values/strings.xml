@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Phone2TV</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="edit_message">Enter a message</string>
+    <string name="title_activity_display_message">My Message</string>
+    <string name="scan">scan</string>
+    <string name="topic">topic</string>
+    <string name="shake">shake</string>
+    <string name="channels">channels</string>
+    <string name="sns">sns</string>
+    <string name="today">today</string>
+    <string name="tomorrow">tomorrow</string>
+    <string name="aftertomorrow">aftertomorrow</string>
+
+</resources>

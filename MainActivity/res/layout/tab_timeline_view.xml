@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/img_title_left"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/title_left" 
+                android:layout_alignParentLeft="true"/>
+
+            <ImageView
+                android:id="@+id/img_title_body"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/title_body" 
+                android:scaleType="fitXY"
+                android:layout_toLeftOf="@+id/img_title_right"
+                android:layout_toRightOf="@+id/img_title_left"/>
+
+            <ImageView
+                android:id="@+id/img_title_right"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/title_right" 
+                android:layout_alignParentRight="true"/>
+            
+            <TextView
+       		    android:id="@+id/text_channel_name"
+       		    android:layout_width="wrap_content"
+       		    android:layout_height="wrap_content" 
+       		    android:layout_centerInParent="true"
+       		    android:textSize="18sp"
+       		    android:textColor="#FFFFFF"/>
+        </RelativeLayout>
+    </FrameLayout>
+
+     <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="#112E6A">
+
+        <ImageView
+            android:id="@+id/image_tvchannel_banner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/banner_default" 
+            android:layout_centerInParent="true"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignLeft="@+id/image_tvchannel_banner"
+            android:layout_alignBottom="@+id/image_tvchannel_banner"
+            android:layout_alignRight="@+id/image_tvchannel_banner"
+            android:background="#BF000000">
+            <TextView
+                android:id="@+id/text_curprogram"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在播出 : "
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"/>
+            
+            <TextView
+                android:id="@+id/text_curprogram_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="足球世界"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:layout_toRightOf="@+id/text_curprogram"/>
+            
+            <TextView
+                android:id="@+id/text_curprogram_introduce"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="欧冠强强对话，巴萨4-0米栏回放，梅西王者归来"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram"/>
+            
+            <TextView
+                android:id="@+id/text_curprogram_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="19:00-20:25"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram_introduce"/>
+            
+             <TextView
+                android:id="@+id/text_watch_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在观看(50)"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram_introduce"
+                android:layout_alignParentRight="true"/>
+
+             <ImageView
+                 android:id="@+id/image_arrow_right"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/arrow_right" 
+                 android:layout_above="@+id/text_watch_count"
+                 android:layout_alignParentRight="true"/>
+            
+        </RelativeLayout>
+        
+    </RelativeLayout>
+
+
+    <TabHost
+        android:id="@android:id/tabhost"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <LinearLayout    
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="#112E6A">
+            
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                 android:layout_weight="1">
+
+                <ListView
+                    android:id="@+id/list_program"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="#00000000"
+                    android:dividerHeight="1dp"
+                    android:listSelector="@android:color/transparent"
+        			android:cacheColorHint="@android:color/transparent"
+                    android:background="#112E6A">
+                </ListView>
+ 
+            </FrameLayout>
+            
+           <TabWidget
+               android:id="@android:id/tabs"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content">
+           </TabWidget>
+        </LinearLayout>
+    </TabHost>
+
+</LinearLayout>

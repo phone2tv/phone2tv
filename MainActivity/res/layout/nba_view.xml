@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/image_nba_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_left" 
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:id="@+id/image_nba_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/image_nba_right"
+            android:layout_toRightOf="@+id/image_nba_left"
+            android:scaleType="fitXY"
+            android:src="@drawable/title_body" />
+
+        <ImageView
+            android:id="@+id/image_nba_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_right" 
+            android:layout_alignParentRight="true"/>
+        
+        <TextView
+       		android:id="@+id/text_nba_title"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content" 
+       		android:layout_centerInParent="true"
+       		android:textSize="18sp"
+       		android:textColor="#FFFFFF"
+       		android:text="NBA赛场"/>
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nbd_bg"
+        android:orientation="vertical">
+        
+         <TextView
+             android:id="@+id/text_nba_active"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="投票参与抽大奖"
+             android:textColor="#FFFFFF"
+             android:textSize="14sp"
+             android:textStyle="bold"
+             android:layout_gravity="center"
+             android:paddingTop="14dp"/>
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+
+             <ImageView
+                 android:id="@+id/imageView1"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/atl_logo" 
+                 android:layout_alignParentLeft="true"
+                 android:layout_marginLeft="18dp"
+                 android:layout_marginTop="8dp"/>
+
+             <ImageView
+                 android:id="@+id/imageView2"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/dal_logo" 
+                 android:layout_alignParentRight="true"
+                 android:layout_marginRight="30dp"/>
+             
+              <TextView
+             android:id="@+id/text_nba_score"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="62 - 66"
+             android:textColor="#FFFFFF"
+             android:textSize="24sp"
+             android:textStyle="bold"/>
+
+         </RelativeLayout>
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+             <TextView
+             android:id="@+id/text_nba_team1"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="ATL"
+             android:textColor="#FFFFFF"
+             android:textSize="18sp"
+             android:textStyle="bold"
+             android:layout_alignParentLeft="true"
+             android:layout_marginLeft="41dp"/>
+              <TextView
+             android:id="@+id/text_nba_time"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="3th 6:31"
+             android:textColor="#FFFFFF"
+             android:textSize="12sp"/>
+              <TextView
+             android:id="@+id/text_nba_team2"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="DAL"
+             android:textColor="#FFFFFF"
+             android:textSize="18sp"
+             android:textStyle="bold"
+             android:layout_alignParentRight="true"
+             android:layout_marginRight="41dp"/>
+         </RelativeLayout>
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content" >
+
+             <ImageView
+                 android:id="@+id/imageView3"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/button_atl" 
+                 android:layout_alignParentLeft="true"
+                 android:layout_marginLeft="12dp"
+                 android:layout_marginTop="18dp"/>
+
+             <ImageView
+                 android:id="@+id/imageView4"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/button_dal" 
+                 android:layout_alignParentRight="true"
+                 android:layout_marginRight="12dp"
+                 android:layout_marginTop="18dp"/>
+
+         </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nbd_bg_mid"
+        android:orientation="vertical" >
+
+      <TextView
+             android:id="@+id/text_nba_scan"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="扫描电视屏幕二维码参与比赛其它互动"
+             android:textColor="#FFFFFF"
+             android:textSize="14sp"
+             android:textStyle="bold"
+             android:gravity="center"
+             android:layout_marginTop="17.5dp"/>
+ 	 <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17.5dp">
+      <ImageView
+          android:id="@+id/image_scan_bt"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/button_scanning"
+          android:layout_gravity="center"
+          android:layout_weight="1"
+          android:clickable="true"/>
+      </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/spacing"
+        android:orientation="vertical" >
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nbd_bg"
+        android:orientation="vertical" >
+ 	 
+         <TextView
+             android:id="@+id/text_nba_lottery"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_centerInParent="true"
+             android:text="立即前往购买彩票"
+             android:textColor="#FFFFFF"
+             android:textSize="14sp"
+             android:textStyle="bold"
+             android:gravity="center"
+             android:layout_marginTop="12dp"/>
+
+         <RelativeLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_marginTop="12dp" >
+
+             <ImageView
+                 android:id="@+id/image_lottery_sina"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/button_sina" 
+                 android:layout_alignParentLeft="true"
+                 android:layout_marginLeft="12dp"/>
+
+             <ImageView
+                 android:id="@+id/image_lottery_tencent"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/button_tencent" 
+                 android:layout_centerInParent="true"/>
+
+             <ImageView
+                 android:id="@+id/image_lottery_360buy"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:src="@drawable/button_360buy" 
+                 android:layout_alignParentRight="true"
+                 android:layout_marginRight="12dp"/>
+
+         </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

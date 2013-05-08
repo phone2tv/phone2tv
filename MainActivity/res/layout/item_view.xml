@@ -1,0 +1,110 @@
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        
+        <RelativeLayout
+            android:layout_width="match_parent"
+       		android:layout_height="match_parent"
+       		android:background="@drawable/item_tvstation_selector"/>
+        
+        <RelativeLayout
+            android:id="@+id/hotarea_relativelayout"
+            android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_alignParentRight="true"
+       		android:layout_marginRight="6dp"
+       		android:layout_alignParentBottom="true">
+       		
+       		    <TextView
+       		        android:id="@+id/item_hot"
+       		        android:layout_width="wrap_content"
+       		        android:layout_height="wrap_content"
+       		        android:text="热度"
+       		        android:layout_alignParentRight="true"
+       		        android:textColor="#7D7D7D"
+       		        android:textSize="10sp"/>
+       		    
+       			<ImageView
+       			    android:id="@+id/image_star1"
+       			    android:layout_width="wrap_content"
+       			    android:layout_height="wrap_content"
+       			    android:src="@drawable/hot_star" 
+       			    android:layout_toLeftOf="@+id/image_star2"
+       			    android:layout_below="@+id/item_hot"/>
+
+       			<ImageView
+       			    android:id="@+id/image_star2"
+       			    android:layout_width="wrap_content"
+       			    android:layout_height="wrap_content"
+       			    android:src="@drawable/hot_star"
+       			    android:layout_toLeftOf="@+id/image_star3"
+       			    android:layout_below="@+id/item_hot"/>
+
+       			<ImageView
+       			    android:id="@+id/image_star3"
+       			    android:layout_width="wrap_content"
+       			    android:layout_height="wrap_content"
+       			    android:src="@drawable/hot_star" 
+       			    android:layout_toLeftOf="@+id/image_star4"
+       			    android:layout_below="@+id/item_hot"/>
+
+       			<ImageView
+       			    android:id="@+id/image_star4"
+       			    android:layout_width="wrap_content"
+       			    android:layout_height="wrap_content"
+       			    android:src="@drawable/hot_star" 
+       			    android:layout_toLeftOf="@+id/image_star5"
+       			    android:layout_below="@+id/item_hot"/>
+
+       			<ImageView
+       			    android:id="@+id/image_star5"
+       			    android:layout_width="wrap_content"
+       			    android:layout_height="wrap_content"
+       			    android:src="@drawable/hot_star_non" 
+       			    android:layout_alignParentRight="true"
+       			    android:layout_below="@+id/item_hot"/>
+       	</RelativeLayout>
+
+        <ImageView
+            android:id="@+id/item_imgheader"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:src="@drawable/cctv5"/>
+            
+       	<TextView
+       		android:id="@+id/item_tvname"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content" 
+       		android:layout_toRightOf="@+id/item_imgheader"
+       		android:layout_marginLeft="6dp"
+       		android:layout_centerInParent="true"
+       		android:textSize="18sp"
+       		android:textColor="#484848"
+       		android:text="中央五套"/>
+       		
+       	<TextView
+       	    android:id="@+id/item_hint"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_toRightOf="@+id/item_imgheader"
+       		android:layout_alignParentBottom="true"
+       		android:layout_marginLeft="6dp"
+       		android:text="正在热播:"
+       		android:textColor="#7D7D7D"
+       		android:textSize="12sp"/>
+       		
+       	<TextView
+       		android:id="@+id/item_curprogram"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content" 
+       		android:layout_toRightOf="@+id/item_hint"
+       		android:layout_alignParentBottom="true"
+       		android:textSize="12sp"
+       		android:textColor="#7D7D7D"
+       		android:text="意甲"
+       		android:singleLine="true"
+       		android:maxEms="8"/>
+
+    </RelativeLayout>

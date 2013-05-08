@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#112E6A" >
+
+    <LinearLayout
+        android:id="@+id/log_linearlayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:gravity="center"
+        android:orientation="vertical" 
+        android:focusableInTouchMode="true">
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/logo" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/log_linearlayout" 
+        android:layout_marginTop="54dp">
+
+        <ImageView
+            android:id="@+id/image_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/user_input" />
+        
+
+        <ImageView
+            android:id="@+id/image_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_user"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/code_input" />
+
+        <ImageView
+            android:id="@+id/image_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/login_block" 
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/image_code"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/image_code_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/code_save" 
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/image_login"
+            android:paddingTop="17dp"
+            android:clickable="true"/>
+
+        <ImageView
+            android:id="@+id/image_reg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/reg" 
+            android:layout_alignParentLeft="true"
+            android:paddingLeft="35dp"
+            android:paddingBottom="7dp"
+            android:layout_alignParentBottom="true"/>
+
+        <ImageView
+            android:id="@+id/image_find_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/find_code" 
+            android:layout_alignParentRight="true"
+            android:paddingRight="35dp"
+            android:layout_alignParentBottom="true"
+            android:paddingBottom="7dp"/>
+
+        <EditText
+            android:id="@+id/text_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/image_user"
+            android:layout_alignLeft  ="@+id/image_user"
+            android:layout_alignRight = "@+id/image_user"
+            android:paddingLeft="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:ems="10" 
+            android:textSize="12sp"
+            android:clickable="true">
+        </EditText>
+
+        <EditText
+            android:id="@+id/text_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textPassword" 
+            android:layout_below="@+id/text_user_name"
+            android:layout_alignBottom="@+id/image_code"
+            android:layout_alignLeft = "@+id/image_code"
+            android:layout_alignRight="@+id/image_code"
+            android:paddingLeft="10dp"
+            android:layout_centerHorizontal="true"
+            android:background="@null"
+            android:textSize="12sp"
+            android:clickable="true">
+         </EditText>
+
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"
+    android:background="#112E6A"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/image_scan_title_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_left" 
+            android:layout_alignParentLeft="true"/>
+
+        <ImageView
+            android:id="@+id/image_scan_title_body"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/image_scan_title_right"
+            android:layout_toRightOf="@+id/image_scan_title_left"
+            android:scaleType="fitXY"
+            android:src="@drawable/title_body" />
+
+        <ImageView
+            android:id="@+id/image_scan_title_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_right" 
+            android:layout_alignParentRight="true"/>
+        
+         <TextView
+       		    android:id="@+id/text_scan_title"
+       		    android:layout_width="wrap_content"
+       		    android:layout_height="wrap_content" 
+       		    android:layout_centerInParent="true"
+       		    android:textSize="18sp"
+       		    android:textColor="#FFFFFF"
+       		    android:text="扫一扫"/>
+
+    </RelativeLayout>
+
+</LinearLayout>  
+<!--FrameLayout 
+    android:id="@+id/FrameLayout01"  
+    android:layout_width="fill_parent" 
+    android:layout_height="fill_parent"  
+    xmlns:android="http://schemas.android.com/apk/res/android">  
+    <SurfaceView 
+        android:layout_height="fill_parent"  
+        android:id="@+id/sfvCamera" 
+        android:layout_width="fill_parent">
+    </SurfaceView>  
+    
+    <RelativeLayout 
+        android:id="@+id/RelativeLayout01"  
+        android:layout_height="fill_parent" 
+        android:layout_width="fill_parent">  
+        <ImageView android:id="@+id/ImageView01"  
+            android:layout_height="wrap_content" 
+            android:layout_width="wrap_content">           
+        </ImageView>  
+        
+        <View 
+            android:layout_centerVertical="true"  
+            android:layout_centerHorizontal="true" 
+            android:layout_width="300dip"  
+            android:background="#55FF6666" 
+            android:id="@+id/centerView"  
+            android:layout_height="180dip">
+        </View>  
+        
+        <TextView 
+            android:layout_centerHorizontal="true"  
+            android:layout_width="wrap_content" 
+            android:layout_below="@+id/centerView"  
+            android:layout_height="wrap_content" 
+            android:text="Scanning..."  
+            android:id="@+id/txtScanResult" 
+            android:textColor="#FF000000">
+        </TextView>  
+    </RelativeLayout>  
+</FrameLayout-->

@@ -1,0 +1,102 @@
+package com.example.phone2tv;
+
+import android.net.UrlQuerySanitizer.ValueSanitizer;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.MotionEvent;
+import android.widget.EditText;
+import android.widget.Button;
+import android.content.*;
+import android.util.*;
+import android.widget.ImageView;
+import android.graphics.Bitmap;
+import android.net.Uri;
+
+public class MainActivity extends Activity implements OnTouchListener
+{
+	public final static String EXTRA_MESSAGE = "com.example.phone2tv.MESSAGE";
+	Button m_scan;
+	Button m_myTopic;
+	Button m_shake;
+	Bitmap m_bitmap;
+	ImageView m_imageFrame;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) 
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        
+        initControl();
+        
+        m_bitmap = null;
+    }
+    
+    private boolean initControl()
+    {
+    	 m_scan = (Button)findViewById(R.id.button0);
+         m_scan.setOnTouchListener(this);
+         
+         m_myTopic = (Button)findViewById(R.id.button1);
+         m_myTopic.setOnTouchListener(this);
+         
+         m_shake = (Button)findViewById(R.id.button2);
+         m_shake.setOnTouchListener(this);
+         
+         m_imageFrame = (ImageView)findViewById(R.id.imageView1);
+    	return true;
+    }
+        
+    
+    @Override
+    public boolean onTouch(View v, MotionEvent event)
+    {
+    	switch(v.getId())
+    	{
+    	case R.id.button0:
+    		//setContentView(R.layout.scan_view);
+    		captureTv();
+    		break;
+    	case R.id.button1:
+    		setContentView(R.layout.mytopics_view);
+    		break;
+    	case R.id.button2:
+    		setContentView(R.layout.shake_view);
+    		break;
+    	}
+    	return true;
+    }
+    
+    public void captureTv()
+    {
+    	Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+    	startActivityForResult(intent , 0);
+    }
+    
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) 
+    {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_main, menu);
+        return true;
+    }
+    
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+    	if(RESULT_OK == resultCode)
+    	{
+    		//get picture
+    		Bundle extra = data.getExtras();
+    		m_bitmap = (Bitmap)extra.get("data");
+    		if(null != imgpath)
+    		{
+    			m_imageFrame.setImageBitmap(m_bitmap);
+    		}
+    	}
+    	setContentView(R.layout.scan_view);
+    }
+}
