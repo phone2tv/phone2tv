@@ -6,7 +6,8 @@
         <RelativeLayout
             android:layout_width="match_parent"
        		android:layout_height="match_parent"
-       		android:background="@drawable/item_tvstation_selector"/>
+       		android:background="@drawable/item_tvstation_selector"
+       		android:layout_alignBottom="@+id/item_tvname"/>
         
         <RelativeLayout
             android:id="@+id/hotarea_relativelayout"
@@ -14,7 +15,7 @@
        		android:layout_height="wrap_content"
        		android:layout_alignParentRight="true"
        		android:layout_marginRight="6dp"
-       		android:layout_alignParentBottom="true">
+       		android:layout_alignBottom="@+id/item_tvname">
        		
        		    <TextView
        		        android:id="@+id/item_hot"
@@ -71,31 +72,35 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:src="@drawable/cctv5"/>
+            android:layout_centerInParent="true"
+            android:src="@drawable/cctv5"
+            android:clickable="true"/>
             
        	<TextView
-       		android:id="@+id/item_tvname"
+       		android:id="@+id/item_curprogram"
        		android:layout_width="wrap_content"
        		android:layout_height="wrap_content" 
        		android:layout_toRightOf="@+id/item_imgheader"
        		android:layout_marginLeft="6dp"
+       		android:layout_marginRight="20dp"
        		android:layout_centerInParent="true"
-       		android:textSize="18sp"
+       		android:textSize="16sp"
        		android:textColor="#484848"
-       		android:text="中央五套"/>
+       		android:text="天下足球"/>
        		
        	<TextView
-       	    android:id="@+id/item_hint"
+       	    android:id="@+id/item_tvname"
        		android:layout_width="wrap_content"
        		android:layout_height="wrap_content"
        		android:layout_toRightOf="@+id/item_imgheader"
-       		android:layout_alignParentBottom="true"
+       		android:layout_below="@+id/item_curprogram"
        		android:layout_marginLeft="6dp"
-       		android:text="正在热播:"
+       		android:layout_marginTop="10dp"
+       		android:text="中央五套"
        		android:textColor="#7D7D7D"
        		android:textSize="12sp"/>
        		
-       	<TextView
+       	<!--TextView
        		android:id="@+id/item_curprogram"
        		android:layout_width="wrap_content"
        		android:layout_height="wrap_content" 
@@ -105,6 +110,7 @@
        		android:textColor="#7D7D7D"
        		android:text="意甲"
        		android:singleLine="true"
-       		android:maxEms="8"/>
+       		android:maxEms="8"/-->
+
 
     </RelativeLayout>

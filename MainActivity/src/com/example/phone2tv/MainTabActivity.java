@@ -78,8 +78,7 @@ public class MainTabActivity extends TabActivity
 	                        {  
 	    	                     public void onClick(DialogInterface dialog, int whichButton) 
 	    	                     {           
-	    	                    	 //finish();
-	    	                    	   System.exit(0);
+	    	                    	finish();
 	    	                     }
 			                });  
 	     builder.setNegativeButton("È¡Ïû",  

@@ -55,8 +55,7 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 	public NetworkAdapter mHttpSession = null;
 	public boolean        mIsLoging = false;
 	private LoginInfo     mLoginInfo = null;
-//	public String    mServerAddress = null;
-//	public String    mServerPort    = null;
+
 	@Override
     protected void onCreate(Bundle savedInstanceState) 
     {
@@ -70,22 +69,10 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 	
 	protected void initServer() 
 	{
-		JSONObject server = getServerInfo();
 		String serverAddress = null;
 		String serverPort = null;
-		try
-		{
-			serverAddress = server.getString("address");
-			serverPort    = server.getString("port");
-			Log.d(TAG , "server address : " + serverAddress + "server port :" + serverPort);
-		}
-		catch(Exception e)
-		{
-			serverAddress = "tvshow.ap01.aws.af.cm";
-			serverPort = "80";
-			Log.d(TAG , "default address");
-		}
-		
+		serverAddress = "tvshow.ap01.aws.af.cm";
+		serverPort    = "80";
 		mLoginInfo = new LoginInfo();
 		mLoginInfo.setServerAddress(serverAddress);
 		mLoginInfo.setServerPort(serverPort);
@@ -94,59 +81,52 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 				                          mLoginInfo.getServerPort());
 	}
 	
+	protected void SaveLoginInfo()
+	{
+		SharedPreferences loginInfo = getSharedPreferences("login_info", 0);
+		loginInfo.edit().putBoolean("is_save", mIsSaveCode).commit();
+		if(mIsSaveCode)
+		{
+			loginInfo.edit().putString("user_name", mUserNameEditor.getText().toString()).commit();
+			loginInfo.edit().putString("passwd", mPasswdEditor.getText().toString()).commit();
+		}
+		
+	}
+	
 	protected void DefaultLoginInfo()
 	{
-		try
+		SharedPreferences loginInfo = getSharedPreferences("login_info", 0);
+		mIsSaveCode        = loginInfo.getBoolean("is_save" , false);
+		String defUserName = null;
+		String defPasswd = null;
+		if(mIsSaveCode)
 		{
-			JSONObject obj = getLoginInfo();
-			String defUserName = obj.getString("user_name");
-			String defPasswd   = obj.getString("passwd");
-			if(defUserName.length() != 0)
-			{
-				mUserNameEditor.setText(defUserName);
-				mUserNameImg.setImageResource(R.drawable.user_input_b);
-			}
-			if(defPasswd.length() != 0)
-			{
-				mPasswdEditor.setText(defPasswd);
-				mPasswdImg.setImageResource(R.drawable.code_input_b);
-			}
+			mSaveCodeBt.setImageResource(R.drawable.code_save_b);
+			defUserName = loginInfo.getString("user_name", "");
+			defPasswd   = loginInfo.getString("passwd" , "");
 		}
-		catch(Exception e)
+		else
 		{
-			e.printStackTrace();
+			mSaveCodeBt.setImageResource(R.drawable.code_save);
+			defUserName = "";
+			defPasswd = "";
 		}
 		
 		
-	}
-	protected JSONObject readFromConfig(String fileName , String sectionName)
-	{
-		JSONObject section = null;
-		try
+		
+		mUserNameEditor.setText(defUserName);
+		if(defUserName.length() != 0)
 		{
-			String content = readRecordInfo(fileName);
-			JSONObject configFile = StringToJson(content);
-			section = configFile.getJSONObject(sectionName);
+			mUserNameImg.setImageResource(R.drawable.user_input_b);
 		}
-		catch(Exception e)
+		
+		mPasswdEditor.setText(defPasswd);
+		if(defPasswd.length() != 0)
 		{
-			e.printStackTrace();
+			
+			mPasswdImg.setImageResource(R.drawable.code_input_b);
 		}
-		return section;		
-	}
-	
-	protected JSONObject getServerInfo()
-	{
-		JSONObject serverInfo = null;
-		serverInfo = readFromConfig("phone2tvConfig.json" , "server_info");
-		return serverInfo;
-	}
-	
-	protected JSONObject getLoginInfo()
-	{
-		JSONObject loginInfo = null;
-		loginInfo = readFromConfig("phone2tvConfig.json" , "login_info");
-		return loginInfo;
+
 	}
 	
 	protected JSONObject StringToJson(String content)
@@ -163,29 +143,7 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 		return obj;
 	}
 	
-	protected String readRecordInfo(String fileName)
-	{
-		String configContent;
-		try
-		{
-			InputStream is = getAssets().open(fileName);
-			int size = is.available();
-			byte buffer[] = new byte[size];
-			is.read(buffer);
-			is.close();
-			configContent = new String(buffer , "UTF-8");
-			return  configContent;
-			
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return null;
-		}
-		
-		
-		
-	}
+
 	
 	protected void initControl()
 	{
@@ -219,15 +177,16 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 		}
 		else if(targetId == mSaveCodeBt.getId())
 		{
+			mIsSaveCode = !mIsSaveCode;
 			if(mIsSaveCode)
-			{
-				mSaveCodeBt.setImageResource(R.drawable.code_save);
-			}
-			else
 			{
 				mSaveCodeBt.setImageResource(R.drawable.code_save_b);
 			}
-			mIsSaveCode = !mIsSaveCode;
+			else
+			{
+				mSaveCodeBt.setImageResource(R.drawable.code_save);
+			}
+			
 		}
 		else if(targetId == mLoginBt.getId())
 		{
@@ -269,6 +228,8 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 				String errStr = loginStatus.getString("error");
 				if(errStr.contentEquals("Success"))
 				{
+					
+					SaveLoginInfo();
 					String token = loginStatus.getString("auth_token");
 					String userId = loginStatus.getString("user_id");
 					Intent intent = new Intent();
@@ -279,6 +240,7 @@ public class MainActivity extends Activity implements OnClickListener , OnTouchL
 					intent.putExtras(bundle);
 			   		intent.setClass(MainActivity.this, MainTabActivity.class);
 			   		startActivity(intent);
+			   		finish();
 				}
 				else
 				{

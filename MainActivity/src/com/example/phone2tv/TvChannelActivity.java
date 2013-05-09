@@ -92,7 +92,8 @@ public class TvChannelActivity extends Activity
 		{
 			Log.d(TAG , "fillItem loop");
 			 HashMap<String, Object> map = new HashMap<String, Object>();
-			 map.put("imgtv",tvId2ResId.get(tvs.get(i).getTvIndex()));
+			// map.put("imgtv",tvId2ResId.get(tvs.get(i).getTvIndex()));
+			 map.put("imgtv",tvId2ResId.get(1));
 		     map.put("channel_name", tvs.get(i).getTvName());
 		     if(tvs.get(i).getPrograms().size() != 0)
 		    	 map.put("current_program" ,  tvs.get(i).getPrograms().get(0).getProgramName());

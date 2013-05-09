@@ -63,25 +63,27 @@
             android:paddingTop="17dp"
             android:clickable="true"/>
 
-        <ImageView
-            android:id="@+id/image_reg"
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/reg" 
-            android:layout_alignParentLeft="true"
-            android:paddingLeft="35dp"
-            android:paddingBottom="7dp"
-            android:layout_alignParentBottom="true"/>
-
-        <ImageView
-            android:id="@+id/image_find_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/find_code" 
-            android:layout_alignParentRight="true"
-            android:paddingRight="35dp"
+            android:layout_height="wrap_content" 
+            android:layout_marginBottom="7dp"
             android:layout_alignParentBottom="true"
-            android:paddingBottom="7dp"/>
+            android:layout_centerHorizontal="true">
+            
+            <ImageView
+            	android:id="@+id/image_reg"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:src="@drawable/reg" />
+
+        	<ImageView
+            	android:id="@+id/image_find_code"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+            	android:src="@drawable/find_code"/>
+        </LinearLayout>
+
+        
 
         <EditText
             android:id="@+id/text_user_name"
