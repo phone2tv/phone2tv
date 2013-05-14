@@ -12,7 +12,8 @@
    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/item_program_selector"/>
+        android:background="@drawable/item_program_selector"
+        android:layout_alignBottom="@+id/program_discuss_num"/>
 
         <!--ImageView
             android:id="@+id/imageView1"
@@ -61,18 +62,17 @@
        		android:layout_height="wrap_content" 
        		android:layout_centerInParent="true"
        		android:layout_toRightOf="@+id/broadcast_begin_time"
+       		android:layout_toLeftOf="@+id/program_discuss_num"
        		android:layout_marginLeft="20dp"
        		android:textSize="16sp"
-       		android:text="开心一刻"
-       		android:ellipsize="end"
-       		android:singleLine="true"/>
+       		android:text="开心一刻"/>
         
         <TextView
             android:id="@+id/program_discuss_num"
        		android:layout_width="wrap_content"
        		android:layout_height="wrap_content" 
        		android:layout_alignParentRight="true"
-       		android:layout_alignParentBottom="true"
+       		android:layout_below="@+id/program_name"
        		android:textSize="10sp"
        		android:text="评论(0)"/>
 

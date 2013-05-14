@@ -164,8 +164,8 @@ public final class R {
         public static final int zhejiangtv=0x7f020096;
     }
     public static final class id {
-        public static final int broadcast_begin_time=0x7f070024;
-        public static final int broadcast_end_time=0x7f070025;
+        public static final int broadcast_begin_time=0x7f070025;
+        public static final int broadcast_end_time=0x7f070026;
         public static final int channel_icon=0x7f07005e;
         public static final int comment_list_view=0x7f070074;
         public static final int hotarea_relativelayout=0x7f070031;
@@ -253,8 +253,8 @@ public final class R {
         public static final int log_linearlayout=0x7f070000;
         public static final int menu_settings=0x7f070096;
         public static final int prgram_title_body=0x7f07003d;
-        public static final int program_discuss_num=0x7f070027;
-        public static final int program_name=0x7f070026;
+        public static final int program_discuss_num=0x7f070024;
+        public static final int program_name=0x7f070027;
         public static final int program_title_left=0x7f07003c;
         public static final int program_title_right=0x7f07003e;
         public static final int progress=0x7f07003a;

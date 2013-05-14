@@ -1,5 +1,7 @@
 package com.example.phone2tv;
 
+import android.R.id;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.TabActivity;
@@ -24,12 +26,14 @@ import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabWidget;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
 
-public class ProgramActivity extends TabActivity 
+public class ProgramActivity extends Activity 
 {
      private static final String TAG = "ProgramActivity";
      private Phone2TvTabHost        mTimeLineTab;
@@ -41,7 +45,8 @@ public class ProgramActivity extends TabActivity
 	 private ListView                           m_programList;
 	 private ArrayList<HashMap<String, Object>> m_currentProgram;
 	 private HashMap<Integer , ArrayList<HashMap<String , Object>>> m_programParades;
-	 SimpleAdapter                              m_programAdapter; 
+	 //SimpleAdapter                              m_programAdapter; 
+	 ProgramListAdapter                         m_programAdapter;
 	 NetworkAdapter                             m_httpSession;
 	 View                                       m_progressView;
 	 View                                       m_loadingTextView;
@@ -53,6 +58,11 @@ public class ProgramActivity extends TabActivity
 
 	 LoginInfo                                  mLoginInfo     = null;
 	 TvStationProgram                           mTvStation     = null;
+	 TabHost tabs                                              = null;
+	 protected TabHost getTabHost()
+	 {
+		 return tabs;
+	 }
 	 protected void onCreate(Bundle savedInstanceState) 
 	 {
 	        super.onCreate(savedInstanceState);
@@ -67,6 +77,8 @@ public class ProgramActivity extends TabActivity
 	        TextView title = (TextView)findViewById(R.id.text_channel_name);
 	        title.setText(mTvStation.getTvName());
 	        initProgramList();
+	        tabs = (TabHost)findViewById(id.tabhost); 
+	        tabs.setup();
 	        mTimeLineTab = new Phone2TvTabHost(this ,
 	        		                           getTabHost() ,
 	        		                           R.layout.tab_widget_item_view ,
@@ -113,7 +125,7 @@ public class ProgramActivity extends TabActivity
 		m_currentProgram = new ArrayList<HashMap<String , Object>>();
 		
 		
-		m_programAdapter = new SimpleAdapter(this, 
+		m_programAdapter = new ProgramListAdapter(this, 
 											m_currentProgram , 
 											R.layout.item_program, 
 											new String[]{"begin_time" ,
@@ -221,17 +233,27 @@ public class ProgramActivity extends TabActivity
 		 return false;
 	 }
 	 
+	 private void sortProgramByTime(TvStationProgram program )
+	 {
+		 ProgramCompare compare = new ProgramCompare();
+		 Collections.sort(program.mPrograms, compare); 
+		 for(int i = 0 ; i < program.getPrograms().size() ; i++)
+		 {
+			 Log.d(TAG , program.getPrograms().get(i).mName);
+		 }
+		 
+	 }
+	 
 	 private void fillItemFromData(TvStationProgram program , int dayOffset)
 	 {
 		 ArrayList<HashMap<String, Object>> temp = getItemListByDayOffset(dayOffset);
 		 temp.clear();
 		 HashMap<String , Object> oneItem = null;
+		 sortProgramByTime(program);
 		 for(int i = 0 ; i < program.getPrograms().size()  ; i++)
 		 {
 			 oneItem = new HashMap<String , Object>();
-			 //oneItem.put("begin_time", DateToString(program.getPrograms().get(i).getBeginTime()));
-			 //oneItem.put("end_time" ,  DateToString(program.getPrograms().get(i).getEndTime()));
-			 oneItem.put("begin_time", Phone2TvComm.DateToString(program.getPrograms().get(i).getBeginTime(), Phone2TvComm.mFormat[2]));
+			 /*oneItem.put("begin_time", Phone2TvComm.DateToString(program.getPrograms().get(i).getBeginTime(), Phone2TvComm.mFormat[2]));
 			 oneItem.put("end_time", Phone2TvComm.DateToString(program.getPrograms().get(i).getEndTime(), Phone2TvComm.mFormat[2]));
 			 broadcasted(program.getPrograms().get(i).getBeginTime() , program.getPrograms().get(i).getEndTime());
 			 oneItem.put("name", program.getPrograms().get(i).getProgramName());
@@ -241,7 +263,8 @@ public class ProgramActivity extends TabActivity
 			 String discuss_count = String.valueOf(program.getPrograms().get(i).getDisscusCount());
 			 discuss_hint += discuss_count;
 			 discuss_hint += ")";
-			 oneItem.put("discuss_count" , discuss_hint);
+			 oneItem.put("discuss_count" , discuss_hint);*/
+			 oneItem.put("program", program.getPrograms().get(i));
 			 temp.add(oneItem);
 		 }
 		 
@@ -389,8 +412,11 @@ public class ProgramActivity extends TabActivity
      		 ArrayList<HashMap<String, Object>> list = getItemListByDayOffset(currentTabId);
      		 Intent intent = new Intent();
      		 intent.setClass(ProgramActivity.this, ProgramCommentActivity.class);
-         	 String programName  = (String)list.get(arg2 - 1).get("name");
-         	 Integer    programId    = (Integer)list.get(arg2 - 1).get("program_id"); 
+         	 //String programName  = (String)list.get(arg2 - 1).get("name");
+         	 //Integer    programId    = (Integer)list.get(arg2 - 1).get("program_id"); 
+     		 Program selectOne =(Program)list.get(arg2 - 1).get("program");
+     		 String programName = selectOne.getProgramName();
+     		 Integer programId = selectOne.getIndex(); 
          	 intent.putExtra("program_name", programName);
          	 intent.putExtra("program_id", programId);
          	 intent.putExtra("auth_token" , mLoginInfo.getAuthToken());
@@ -495,4 +521,21 @@ public class ProgramActivity extends TabActivity
 		}
 		 
 	 };
+	 
+	 public class ProgramCompare implements Comparator
+	 {
+
+		@Override
+		public int compare(Object arg0, Object arg1) 
+		{
+			// TODO Auto-generated method stub
+			Program p1 = (Program)arg0;
+			Program p2 = (Program)arg1;
+			if(p2.mBeginTime.before(p1.mBeginTime))
+				return 1;
+	
+			return -1;
+		}
+		 
+	 }
 }
