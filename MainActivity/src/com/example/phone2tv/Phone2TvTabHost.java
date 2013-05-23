@@ -3,6 +3,7 @@ package com.example.phone2tv;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import android.R.id;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -36,7 +37,7 @@ public class Phone2TvTabHost
 	private int                     mPreId  = -1;
 	
 	public Phone2TvTabHost(Context context,
-			               TabHost tab , 
+			               TabHost tab,
 			               int layoutId ,
 			               int imageLayoutId ,
 			               HashMap<Integer , Integer>  normalImage ,

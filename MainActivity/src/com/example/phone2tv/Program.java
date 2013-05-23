@@ -17,6 +17,7 @@ public class Program implements Parcelable
 	public Date    mEndTime;
 	public int     mSubScribeCount;
 	public int     mDiscussCount;
+	public int     mCheckinCount;
 	public HashMap<Integer , Comment> mComments;
 	public Program()
 	{
@@ -125,6 +126,16 @@ public class Program implements Parcelable
 	{
 		mTvId = tvId;
 	}
+	
+	public int getCheckinCount()
+	{
+		return mCheckinCount;
+	}
+	
+	public void setCheckinCount(int count)
+	{
+		mCheckinCount = count;
+	}
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -142,7 +153,7 @@ public class Program implements Parcelable
 		dest.writeSerializable(mEndTime);
 		dest.writeInt(mSubScribeCount);
 		dest.writeInt(mDiscussCount);
-		
+		dest.writeInt(mCheckinCount);		
 	}
 	
 	public static final Parcelable.Creator<Program> CREATOR = new Parcelable.Creator<Program>()
@@ -155,9 +166,10 @@ public class Program implements Parcelable
 	    	p.mTvName  = source.readString();
 	    	p.mTvId    = source.readInt();
 	    	p.mBeginTime = (Date)source.readSerializable();
-	    	p.mBeginTime = (Date)source.readSerializable();
+	    	p.mEndTime = (Date)source.readSerializable();
 	    	p.mSubScribeCount = source.readInt();
 	    	p.mDiscussCount   = source.readInt();
+	    	p.mCheckinCount   = source.readInt();
 			return p;   
 		} 
 		public Program[] newArray(int size) 

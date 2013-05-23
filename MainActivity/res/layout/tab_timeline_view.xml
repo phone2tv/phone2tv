@@ -75,38 +75,73 @@
                 android:id="@+id/text_curprogram_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="足球世界"
+                android:text=""
                 android:textColor="#FFFFFF"
                 android:textSize="14sp"
-                android:layout_toRightOf="@+id/text_curprogram"/>
+                android:layout_toRightOf="@+id/text_curprogram"
+                android:ellipsize = "marquee"
+                android:singleLine="true"/>
             
             <TextView
                 android:id="@+id/text_curprogram_introduce"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="欧冠强强对话，巴萨4-0米栏回放，梅西王者归来"
+                android:text="节目介绍"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp"
                 android:layout_below="@+id/text_curprogram"/>
             
             <TextView
+                android:id="@+id/text_broadcasted"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="进度: "
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram_introduce"/>
+                        
+            <TextView
+                android:id="@+id/text_past_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram_introduce"
+                android:layout_toRightOf="@+id/text_broadcasted"/>
+            
+            <!--TextView
                 android:id="@+id/text_curprogram_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="19:00-20:25"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp"
-                android:layout_below="@+id/text_curprogram_introduce"/>
+                android:layout_below="@+id/text_curprogram_introduce"
+                android:layout_toRightOf="@+id/text_past_time"/-->
+
             
+             <TextView
+                android:id="@+id/text_watching"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="正在观看: "
+                android:textColor="#FFFFFF"
+                android:textSize="10sp"
+                android:layout_below="@+id/text_curprogram_introduce"
+                android:layout_toLeftOf="@+id/text_watch_count"/>
+             
              <TextView
                 android:id="@+id/text_watch_count"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="正在观看(50)"
+                android:text="28"
                 android:textColor="#FFFFFF"
                 android:textSize="10sp"
                 android:layout_below="@+id/text_curprogram_introduce"
                 android:layout_alignParentRight="true"/>
+             
+             
 
              <ImageView
                  android:id="@+id/image_arrow_right"

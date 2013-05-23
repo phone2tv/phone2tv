@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id = "@+id/subscribe_relativelayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/subscribe_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/subscribe_stand_bg"
+        android:layout_marginTop="3dp">
+    </RelativeLayout>
+    
+    <TextView
+        android:id="@+id/text_program_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="4dp"
+       	android:textSize="16sp"
+        android:textColor="#484848"
+        android:text="节目名称"
+        android:singleLine="true"
+        android:ems="8"/>
+    
+
+     
+      <TextView
+        android:id="@+id/channel_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_alignLeft="@+id/text_program_name"
+        android:layout_below="@+id/text_program_name"
+       	android:textSize="10sp"
+        android:textColor="#484848"
+        android:text="电台名称"/>
+    
+    <TextView
+       	    android:id="@+id/text_broadcast_time"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_alignParentRight="true"
+       		android:layout_marginRight="48dp"
+       		android:layout_alignBaseline="@+id/text_program_name"
+       		android:text="周一至周五 19:00-21:00"
+       		android:textColor="#484848"
+       		android:textSize="10sp"/>
+    
+    <TextView
+       	    android:id="@+id/subscribe_count"
+       		android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+       		android:layout_below="@+id/text_program_name"
+       		android:layout_alignRight="@+id/text_broadcast_time"
+       		android:text="收藏人数(0)"
+       		android:textColor="#484848"
+       		android:textSize="10sp"/>
+    
+    <ImageView
+            android:id="@+id/img_new_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/new_message" />
+
+     <include android:layout_width="fill_parent" 
+              android:layout_height="wrap_content" 
+              android:layout_below="@+id/subscribe_count"
+              android:layout_marginTop="2dp"
+              layout="@layout/subscribe_operation_buttons"/>
+     
+</RelativeLayout>

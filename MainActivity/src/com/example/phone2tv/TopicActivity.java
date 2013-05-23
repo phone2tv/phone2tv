@@ -18,38 +18,32 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
-public class TopicActivity extends Activity implements OnClickListener
+import greendroid.app.GDActivity;
+public class TopicActivity extends GDActivity implements OnClickListener
 {
+	private final static int SLOT_NUM = 5;
 	private final static String TAG="TopicActivity";
 	private ArrayList<Program> mSubscribes = null;
-//	private String                 m_authToken;
-//	private String                 m_userId;
 	private NetworkAdapter         mHttpSession;
 	private LoginInfo              mLoginInfo = null;
-//	private String                 mServerAddress;
-//	private String                 mServerPort;
-
+	
 	
 	protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE); 
-        setContentView(R.layout.mytopics_view);
+        setActionBarContentView(R.layout.mytopics_view);
+        setTitle("我的收藏");
         Intent intent = getIntent(); 
         mLoginInfo = Phone2TvComm.getLoginInfoFromIntent(intent);
-//        m_authToken = intent.getStringExtra("auth_token");
-//        m_userId    = intent.getStringExtra("user_id");
-//        mServerAddress = intent.getStringExtra("server_address");
-//        mServerPort    = intent.getStringExtra("server_port");
         mHttpSession = new NetworkAdapter(mLoginInfo.getServerAddress() , 
         		                          mLoginInfo.getServerPort());
-        asyncLoadSubscribes();
+        Log.d(TAG , "onCreate asyncLoadSubscribes");
     }
 	
 	protected void onResume()
 	{
 		super.onResume();
+		Log.d(TAG , "onResume asyncLoadSubscribes");
 		asyncLoadSubscribes();
 	}
 	
@@ -64,6 +58,7 @@ public class TopicActivity extends Activity implements OnClickListener
 				UpdateSubscribeUI(mSubscribes);
 				break;
 			case 1:
+				Log.d(TAG , "handleMessage asyncLoadSubscribes");
 				asyncLoadSubscribes();
 				break;
 			}
@@ -74,51 +69,70 @@ public class TopicActivity extends Activity implements OnClickListener
 	{
 		LinearLayout subCanvas = (LinearLayout)findViewById(R.id.linearlayout_subslot);
 		int subChildCount = subCanvas.getChildCount();
-		if(subChildCount > 1)
-			subCanvas.removeViews(1, subChildCount - 1);
+		if(subChildCount > 0)
+			subCanvas.removeViews(0, subChildCount);
 		
 		int i = 0 ;
 		int size = programs.size();
 		for(; i < size ; i++)
 		{
-			InsertSubscribe(subCanvas , programs.get(i));
+			InsertSubscribe(subCanvas , programs.get(i) , i);
 		}
 		
-		for(; i < 5 ; i++)
+		for(; i < SLOT_NUM ; i++)
 		{
+			Log.d(TAG , "i= "+i);
 			InsertSlot(subCanvas);
 		}
 	}
 	
-	private void InsertSubscribe(LinearLayout subCanvas , Program oneProgram)
+	private void InsertSubscribe(LinearLayout subCanvas , Program oneProgram , int index)
 	{
-		LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , RelativeLayout.LayoutParams.WRAP_CONTENT) ;
-		param.leftMargin = 16;
-		param.rightMargin = 16;
-		param.topMargin = 4;
-		
-		LinearLayout subItem = (LinearLayout)getLayoutInflater().inflate(R.layout.item_topic,  null);
+		RelativeLayout subItem = (RelativeLayout)getLayoutInflater().inflate(R.layout.subscribe_program_stand,  null);
 		subItem.setOnClickListener(this);
-		subItem.setTag(oneProgram);
-		subItem.setLayoutParams(param);
-		ImageView button = (ImageView)subItem.findViewById(R.id.image_subscribe_icon);
-		button.setOnClickListener(this);
-		button.setTag(oneProgram);
+		boolean bExpand = false;
+		subItem.setTag(bExpand);
 		
-		TextView program_name =(TextView)subItem.findViewById(R.id.text_topic_name);
+		//fill name
+		TextView program_name =(TextView)subItem.findViewById(R.id.text_program_name);
 		String name = oneProgram.getProgramName();
 		program_name.setText(name.toCharArray(), 0 , name.length());
+		
+		//fill subscribe num
+		TextView subCount = (TextView)subItem.findViewById(R.id.subscribe_count);
+		String count ="订阅人数(";
+		count+=String.valueOf(oneProgram.getSubscribeCount());
+		count+=")";
+		subCount.setText(count.toCharArray() , 0 , count.length());
+		
+		//fill comment num
+		TextView commentCount = (TextView)subItem.findViewById(R.id.text_comment_num);
+		count = String.valueOf(oneProgram.getCommentCount());
+		commentCount.setText(count.toCharArray() , 0 , count.length());
+		
+		//fill activity num
+		TextView activityCount = (TextView)subItem.findViewById(R.id.text_activity_num);
+		count = String.valueOf(0);
+		activityCount.setText(count.toCharArray() , 0 , count.length());
+		
+		ImageView subscribe_comment = (ImageView)subItem.findViewById(R.id.subscribe_comment);
+		subscribe_comment.setOnClickListener(this);
+		subscribe_comment.setTag(index);
+		
+		ImageView subscrbie_activity = (ImageView)subItem.findViewById(R.id.subscribe_activity);
+		subscrbie_activity.setOnClickListener(this);
+		subscrbie_activity.setTag(index);
+		
+		ImageView subscrbie_unsub = (ImageView)subItem.findViewById(R.id.subscribe_unsubscribe);
+		subscrbie_unsub.setOnClickListener(this);
+		subscrbie_unsub.setTag(index);
 		subCanvas.addView(subItem);
 	}
 	
 	private void InsertSlot(LinearLayout subCanvas)
 	{
-		LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT , RelativeLayout.LayoutParams.WRAP_CONTENT) ;
-		param.leftMargin = 16;
-		param.rightMargin = 16;
-		param.topMargin = 4;
-		LinearLayout subItem = (LinearLayout)getLayoutInflater().inflate(R.layout.item_topic_slot,  null);
-		subItem.setLayoutParams(param);
+		Log.d(TAG , "InsertSlot");
+		RelativeLayout subItem = (RelativeLayout)getLayoutInflater().inflate(R.layout.subscribe_empty_slot,  null);
 		subCanvas.addView(subItem);
 	}
 	
@@ -156,11 +170,43 @@ public class TopicActivity extends Activity implements OnClickListener
 				Program targetProgram = (Program)v.getTag();
 				UnSubscribeProgram(targetProgram);
 				break;
-			default:
-				Program selectProgram = (Program)v.getTag();
-				StartProgramCommentActivity(selectProgram);
+			case R.id.subscribe_relativelayout:
+				boolean b = (Boolean) v.getTag();
+				if(!b)
+					expandSubscribeItem(v);
+				else 
+					folderSubscribeItem(v);
+				v.setTag(!b);
+				break;
+			case R.id.subscribe_unsubscribe:
+				int index = (Integer)v.getTag();
+				UnSubscribeProgram(mSubscribes.get(index));
+				break;
+			case R.id.subscribe_activity:
+			case R.id.subscribe_comment:
+				index = (Integer)v.getTag();
+				StartProgramCommentActivity(mSubscribes.get(index));
 				break;
 		}
+	}
+	
+	public void expandSubscribeItem(View v)
+	{
+		RelativeLayout selectItem = (RelativeLayout)v;
+		RelativeLayout bg =(RelativeLayout)selectItem.findViewById(R.id.subscribe_background);
+		bg.setBackgroundResource(R.drawable.subscribe_expand_bg);
+		
+		LinearLayout buttons = (LinearLayout)selectItem.findViewById(R.id.subscribe_buttons);
+		buttons.setVisibility(View.VISIBLE);
+	}
+	
+	public void folderSubscribeItem(View v)
+	{
+		RelativeLayout selectItem = (RelativeLayout)v;
+		RelativeLayout bg =(RelativeLayout)selectItem.findViewById(R.id.subscribe_background);
+		bg.setBackgroundResource(R.drawable.subscribe_stand_bg);
+		LinearLayout buttons = (LinearLayout)selectItem.findViewById(R.id.subscribe_buttons);
+		buttons.setVisibility(View.GONE);
 	}
 	
 	private void StartProgramCommentActivity(Program targetProgram)

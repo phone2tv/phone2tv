@@ -113,7 +113,7 @@ public class NetworkAdapter
 				oneProgram = new Program();
 				oneProgram.setProgramName(oneJson.getString("name"));
 				oneProgram.setIndex(oneJson.getInt("id"));
-				oneProgram.setSubscribeCount(oneJson.getInt("watch_count"));
+				oneProgram.setSubscribeCount(oneJson.getInt("checkin_count"));
 				oneProgram.setDiscussCount(oneJson.getInt("discuss_count"));
 				subscribes.add(oneProgram);
 			}
@@ -566,6 +566,7 @@ public class NetworkAdapter
 				one.setEndTime(parseString(programsJson.getJSONObject(i).getString("end")));
 				one.setDiscussCount(programsJson.getJSONObject(i).getInt("discuss_count"));
 				one.setSubscribeCount(programsJson.getJSONObject(i).getInt("watch_count"));
+				one.setCheckinCount(programsJson.getJSONObject(i).getInt("checkin_count"));
 				programs.add(one);
 			}
 			

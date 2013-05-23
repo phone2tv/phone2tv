@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Phone2tv" parent="@style/Theme.GreenDroid.NoTitleBar">
+        <item name="gdActionBarBackground">@drawable/actionbar</item>
+        <item name="gdActionBarTitleColor">@color/phone2tv_action_bar_text</item>
+        <item name="gdActionBarHomeDrawable">@drawable/actionbar_return</item>
+        <item name="gdActionBarDividerWidth">0px</item>
+    </style>
+</resources>

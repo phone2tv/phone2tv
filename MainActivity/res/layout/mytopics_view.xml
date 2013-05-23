@@ -5,7 +5,7 @@
     android:orientation="vertical"
     android:background="#112E6A">
     
-    <RelativeLayout
+    <!--RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -40,7 +40,7 @@
        		    android:textSize="18sp"
        		    android:textColor="#FFFFFF"
        		    android:text="我的订阅"/>
-    </RelativeLayout>
+    </RelativeLayout-->
     
     <!--LinearLayout
         android:layout_width="match_parent"
@@ -98,17 +98,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical" 
-        android:layout_marginTop="6dp">
-    	<TextView
+        android:layout_marginTop="2dp">
+    	<!--TextView
     	    android:id="@+id/text_my_program"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginLeft="14dp"
-            android:text="我的订阅"
+            android:text="我的收藏"
             android:textColor="#FFFFFF"
             android:textSize="12sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"/-->
     	
     	 <!--include
 		    android:id="@+id/linearlayout_my_1" 
