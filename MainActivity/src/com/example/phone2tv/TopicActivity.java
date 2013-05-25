@@ -1,31 +1,40 @@
 package com.example.phone2tv;
 
 import java.util.ArrayList;
-
 import org.json.JSONArray;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import greendroid.app.GDActivity;
-public class TopicActivity extends GDActivity implements OnClickListener
+import greendroid.widget.PageIndicator;
+import greendroid.widget.PagedAdapter;
+import greendroid.widget.PagedView;
+import greendroid.widget.PagedView.OnPagedViewChangeListener;
+public class TopicActivity extends GDActivity implements OnClickListener , OnTouchListener
 {
-	private final static int SLOT_NUM = 5;
+	private final static int PAGE_COUNT = 3;
+	private final static int SLOT_NUM = 6;
 	private final static String TAG="TopicActivity";
 	private ArrayList<Program> mSubscribes = null;
-	private NetworkAdapter         mHttpSession;
+	private ArrayList<Program> mHotsubscribes = null;
+	private NetworkAdapter         mHttpSession = null;
 	private LoginInfo              mLoginInfo = null;
+	private PageIndicator      mPageIndicatorLeft = null;
+	private PageIndicator      mPageIndicatorRight = null;
 	
 	
 	protected void onCreate(Bundle savedInstanceState) 
@@ -33,18 +42,20 @@ public class TopicActivity extends GDActivity implements OnClickListener
         super.onCreate(savedInstanceState);
         setActionBarContentView(R.layout.mytopics_view);
         setTitle("我的收藏");
+        
         Intent intent = getIntent(); 
         mLoginInfo = Phone2TvComm.getLoginInfoFromIntent(intent);
         mHttpSession = new NetworkAdapter(mLoginInfo.getServerAddress() , 
         		                          mLoginInfo.getServerPort());
-        Log.d(TAG , "onCreate asyncLoadSubscribes");
+        asyncLoadSubscribes();
+		asyncLoadHotSubscribes();
     }
 	
 	protected void onResume()
 	{
 		super.onResume();
 		Log.d(TAG , "onResume asyncLoadSubscribes");
-		asyncLoadSubscribes();
+		
 	}
 	
 	private Handler mUpdateUI = new Handler()
@@ -61,6 +72,11 @@ public class TopicActivity extends GDActivity implements OnClickListener
 				Log.d(TAG , "handleMessage asyncLoadSubscribes");
 				asyncLoadSubscribes();
 				break;
+			case 2:
+				mHotsubscribes = (ArrayList<Program>)msg.obj;
+				UpdateHotSubscribeUI(mHotsubscribes);
+				break;
+				
 			}
 		}
 	};
@@ -86,10 +102,25 @@ public class TopicActivity extends GDActivity implements OnClickListener
 		}
 	}
 	
+	private void UpdateHotSubscribeUI(ArrayList<Program> programs)
+	{
+		LinearLayout subCanvas = (LinearLayout)findViewById(R.id.linearlayout_hotsub);
+		int subChildCount = subCanvas.getChildCount();
+		if(subChildCount > 0)
+			subCanvas.removeViews(0, subChildCount);
+		
+		int size = programs.size();
+		for(int i = 0 ; i < size ; i++)
+		{
+			insertHotsubscribeProgram(subCanvas , programs.get(i));
+		}
+	}
+	
 	private void InsertSubscribe(LinearLayout subCanvas , Program oneProgram , int index)
 	{
 		RelativeLayout subItem = (RelativeLayout)getLayoutInflater().inflate(R.layout.subscribe_program_stand,  null);
 		subItem.setOnClickListener(this);
+		subItem.setOnTouchListener(this);
 		boolean bExpand = false;
 		subItem.setTag(bExpand);
 		
@@ -127,6 +158,7 @@ public class TopicActivity extends GDActivity implements OnClickListener
 		subscrbie_unsub.setOnClickListener(this);
 		subscrbie_unsub.setTag(index);
 		subCanvas.addView(subItem);
+
 	}
 	
 	private void InsertSlot(LinearLayout subCanvas)
@@ -152,6 +184,31 @@ public class TopicActivity extends GDActivity implements OnClickListener
 					msg.what = 0;
 					msg.obj = programs;
 					mUpdateUI.sendMessage(msg);
+				}
+				catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+	
+	private void asyncLoadHotSubscribes()
+	{
+		new Thread()
+		{
+			public void run()
+			{
+				try
+				{
+					JSONArray json = null;
+					json = mHttpSession.requestHotSubscribes(3);
+					ArrayList<Program> hots = mHttpSession.getHotSubscribes(json);
+					Message msg = new Message();
+					msg.what = 2;
+					msg.obj = hots;
+					mUpdateUI.sendMessage(msg);
+					
 				}
 				catch(Exception e)
 				{
@@ -244,6 +301,44 @@ public class TopicActivity extends GDActivity implements OnClickListener
 				}
 			}
 		}.start();
+	}
+	
+	public void drawMoreButton(View arg0 , MotionEvent arg1)
+	{
+		ImageView moreButton =(ImageView)arg0.findViewById(R.id.img_more_pressed);
+		switch(arg1.getAction())
+		{
+		case MotionEvent.ACTION_DOWN:
+			moreButton.setVisibility(View.VISIBLE);
+			break;
+		case MotionEvent.ACTION_UP:
+			moreButton.setVisibility(View.GONE);
+			break;
+		}
+	}
+	
+	public void insertHotsubscribeProgram(LinearLayout subCanvas , Program program)
+	{
+		LinearLayout subItem = (LinearLayout)getLayoutInflater().inflate(R.layout.hot_subscribe_program,  null);
+		
+		//fill name
+		TextView subCount =(TextView)subItem.findViewById(R.id.text_hotsub_count);
+		String tmp = "收藏人数:" + String.valueOf(program.getSubscribeCount());
+		subCount.setText(tmp.toCharArray(), 0, tmp.length());
+		subCanvas.addView(subItem);
+	}
+
+	@Override
+	public boolean onTouch(View arg0, MotionEvent arg1)
+	{
+		// TODO Auto-generated method stub
+		switch(arg0.getId())
+		{
+		case R.id.subscribe_relativelayout:
+			drawMoreButton(arg0 , arg1);
+			break;
+		}
+		return false;
 	}
 }
 

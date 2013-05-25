@@ -38,7 +38,8 @@ public class NetworkAdapter
 		"users/",       
 		"user_programships/",
 		"discuss_commentships.json?auth_token=",
-		"user_checkinships.json?auth_token"};
+		"user_checkinships.json?auth_token",
+		"shake.json?cmd=hot_watch&size="};
 	
 	private static final String TAG = "NetworkAdapter";
 	private static String mFormat[]= {
@@ -177,6 +178,26 @@ public class NetworkAdapter
 		return program;
 		
 	}
+	
+	public ArrayList<Program> getHotSubscribes(JSONArray jsonArray) throws Exception
+	{
+		ArrayList<Program> hotSubscribe = new ArrayList<Program>();
+		int size = jsonArray.length();
+		JSONObject jsonObj = null;
+		for(int i = 0 ; i < size ; i++)
+		{
+			jsonObj = jsonArray.getJSONObject(i);
+			Program hotSubProgram = new Program();
+			hotSubProgram.setIndex(jsonObj.getInt("id"));
+			hotSubProgram.setProgramName(jsonObj.getString("name"));
+			hotSubProgram.setSubscribeCount(jsonObj.getInt("watch_count"));
+			hotSubProgram.setDiscussCount(jsonObj.getInt("discuss_count"));
+			hotSubProgram.setCheckinCount(jsonObj.getInt("checkin_count"));
+			hotSubscribe.add(hotSubProgram);
+		}
+		return hotSubscribe;
+	}
+	
 	public JSONArray requestFollowers(String authToken , String userId) throws Exception
 	{
 		JSONArray followersJson = null;
@@ -195,6 +216,27 @@ public class NetworkAdapter
 			throw e;
 		}
 		return followersJson ;
+	}
+	
+	public JSONArray requestHotSubscribes(int size)
+	{
+		JSONArray jsonArray = null;
+		String jsonStr = null;
+		String cmdLine = null;
+		if(size <= 0 )
+			size = 3;
+		
+		cmdLine = mCommandStr[11] + String.valueOf(size);
+		try
+		{
+			jsonStr = requestUrl("GET" , cmdLine);
+			jsonArray = new JSONArray(jsonStr);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return jsonArray;
 	}
 	
 	public JSONObject requestCheckin(int programId , 

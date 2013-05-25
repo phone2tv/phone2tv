@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linearlayout_hotsub_item"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:gravity="center"
+    android:paddingTop="7dp"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/img_hotsubscribe_cover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/football_cover"/>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/img_hotsubscribe_cover"
+            android:layout_alignLeft="@+id/img_hotsubscribe_cover"
+            android:layout_alignRight="@+id/img_hotsubscribe_cover"
+            android:background="@drawable/subscribe_hot_title">
+            
+            <TextView
+    	    	android:id="@+id/text_hotsub_count"
+            	android:layout_width="wrap_content"
+            	android:layout_height="wrap_content"
+           	 	android:text="收藏人数:"
+            	android:textColor="#FFFFFF"
+            	android:textSize="10sp"
+            	android:textStyle="bold"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/img_subscribe_bt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/hot_subscribe_bt"
+        android:clickable="true"/>
+
+</LinearLayout>
