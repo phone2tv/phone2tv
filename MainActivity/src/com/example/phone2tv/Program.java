@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -19,6 +20,7 @@ public class Program implements Parcelable
 	public int     mDiscussCount;
 	public int     mCheckinCount;
 	public HashMap<Integer , Comment> mComments;
+	public Bitmap  mCover;
 	public Program()
 	{
 		mComments = new HashMap<Integer , Comment>();
@@ -136,6 +138,17 @@ public class Program implements Parcelable
 	{
 		mCheckinCount = count;
 	}
+	
+	public void setCover(Bitmap bmp)
+	{
+		mCover = bmp;
+	}
+	
+	public Bitmap getCover()
+	{
+		return mCover;
+	}
+	
 	@Override
 	public int describeContents() {
 		// TODO Auto-generated method stub
@@ -153,7 +166,8 @@ public class Program implements Parcelable
 		dest.writeSerializable(mEndTime);
 		dest.writeInt(mSubScribeCount);
 		dest.writeInt(mDiscussCount);
-		dest.writeInt(mCheckinCount);		
+		dest.writeInt(mCheckinCount);
+		dest.writeParcelable(mCover, 0);
 	}
 	
 	public static final Parcelable.Creator<Program> CREATOR = new Parcelable.Creator<Program>()
@@ -170,6 +184,7 @@ public class Program implements Parcelable
 	    	p.mSubScribeCount = source.readInt();
 	    	p.mDiscussCount   = source.readInt();
 	    	p.mCheckinCount   = source.readInt();
+	    	p.mCover          = source.readParcelable(Bitmap.class.getClassLoader());
 			return p;   
 		} 
 		public Program[] newArray(int size) 

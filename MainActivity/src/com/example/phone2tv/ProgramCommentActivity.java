@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -51,10 +52,13 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 	 private ImageView mCommentBt;
 	 private ImageView mCheckinBt;
 	 private ImageView mIntroduceBackground;
-	 private ImageView mBanner;
+	 private ImageView mProgramCover;
 	 private TextView  mTitle;
 	 private TextView  mTextProgramDetail;
 	 private ListView mCommentList;
+	 private TextView mCommentCount;
+	 private TextView mCheckinCount;
+	 private TextView mSubscribeCount;
 	 private int     mScrollState;
 	 View            mProgressView;
 	 View            mLoadingTextView;
@@ -67,10 +71,11 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 	 ArrayList<HashMap<String, Object>> mCommentItem; 
 	 CommentAdapter listItemAdapter;
 	 NetworkAdapter mHttpSession;
-	 String         mProgramName;
-	 int            mProgramId;
+	 Program              mProgramSnapshort;
+	 TvStationProgram     mTvStation;
 	 Program        mProgramDetail;
 	 LoginInfo      mLoginInfo = null;
+	 TextView       mTvName;
 	 class ItemSubHoldView
 	 {
 		 public ImageView mCommentExpandBt;
@@ -124,7 +129,7 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 					setSoftInputVisible(true);
 					mCommentList.setSelection(sub.mPosition);
 					mReplySrcId = sub.mId;
-					//Log.d(TAG , "click comment id:" + sub.mId + "mReplySrcId id :" + mReplySrcId);
+					setInputEditorHint("»Ø¸´:");
 				}
 				else if(v.getId() == sub.mCommentLikeBt.getId())
 				{
@@ -323,14 +328,18 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 		 Log.e(TAG , "onCreate");
 		 super.onCreate(savedInstanceState);
 		 requestWindowFeature(Window.FEATURE_NO_TITLE); 
-		 setContentView(R.layout.program__view);
+		 setContentView(R.layout.program_view);
 		 Intent intent = getIntent();
-		 mProgramName = intent.getStringExtra("program_name");
-		 mProgramId   = intent.getIntExtra("program_id", -1);
 		 mHidden = false;
+		 
 		 mLoginInfo     = Phone2TvComm.getLoginInfoFromIntent(intent);
+		 mTvStation = Phone2TvComm.getTvStationFromIntent(intent);
+		 mProgramSnapshort = Phone2TvComm.getProgramFromIntent(intent);
+		 
 		 initControl();
-		 mTitle.setText(mProgramName.toCharArray(), 0 , mProgramName.length());
+		 mTitle.setText(mProgramSnapshort.getProgramName().toCharArray(), 0 , mProgramSnapshort.getProgramName().length());
+		 mTvName =(TextView)findViewById(R.id.text_channel_name);
+		 mTvName.setText(mTvStation.getTvName().toCharArray() , 0 , mTvStation.getTvName().length());
 		 mHttpSession = new NetworkAdapter(mLoginInfo.getServerAddress() , mLoginInfo.getServerPort());
 		 asycLoadProgramDetail();
 	 }
@@ -343,11 +352,14 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 		 mCommentBt   =(ImageView)findViewById(R.id.image_comment_bt);
 		 mCheckinBt   = (ImageView)findViewById(R.id.image_checkin_bt);
 		 mIntroduceBackground = (ImageView)findViewById(R.id.image_introduce_background);
-		 mBanner =(ImageView)findViewById(R.id.image_program_cover);
+		 mProgramCover =(ImageView)findViewById(R.id.image_program_cover);
 		 mSendBt =(ImageView)findViewById(R.id.image_input_right);
 		 mInputWidget = (EditText)findViewById(R.id.input_editText1);
 		 mTitle       =(TextView)findViewById(R.id.text_program_name);
 		 mTextProgramDetail =(TextView)findViewById(R.id.text_program_detail);
+		 mCommentCount =(TextView)findViewById(R.id.text_comment_count);
+		 mCheckinCount = (TextView)findViewById(R.id.text_checkin_count);
+		 mSubscribeCount=(TextView)findViewById(R.id.text_sub_count);
 		 initList();
 		 mCheckinBt.setOnClickListener(this);
 		 mCheckinBt.setOnTouchListener(this);
@@ -417,16 +429,16 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 	 {
 		 if(!hidden)
 		 {
-		 	mBanner.setVisibility(View.GONE);
+			 mProgramCover.setVisibility(View.GONE);
 		 	mTextProgramDetail.setVisibility(View.GONE);
-		 	mIntroduceBackground.getLayoutParams().height = 91;
+		 	//mIntroduceBackground.getLayoutParams().height = 91;
 		 	
 		 }
 		 else
 		 {
-			 mBanner.setVisibility(View.VISIBLE);
+			 mProgramCover.setVisibility(View.VISIBLE);
 			 mTextProgramDetail.setVisibility(View.VISIBLE);
-			 mIntroduceBackground.getLayoutParams().height = 176;
+			// mIntroduceBackground.getLayoutParams().height = 176;
 		 }
 	 }
 	 
@@ -456,7 +468,10 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 				mHidden = !mHidden;
 				break;
 			case R.id.image_input_right:
-				sendMessage();
+				sendMessage(mReplySrcId);
+				break;
+			case R.id.image_comment_bt:
+				setSoftInputVisible(true);
 				break;
 			}
 	}
@@ -464,13 +479,13 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 	public void joinActivity()
 	{
 		 Intent intent = new Intent();
-		 intent.setClass(this , NbaActivity.class);
+		 intent.setClass(this , InteractActivity.class);
 		 startActivity(intent);
 	}
 	
-	public void sendMessage()
+	public void sendMessage(int status)
 	{
-		asyncPostComment(mInputWidget.getText().toString() , mReplySrcId);
+		asyncPostComment(mInputWidget.getText().toString() , status);
 	}
 	 
 	 public Program buildCommentsTree(Program program)
@@ -486,11 +501,6 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 		 return program;
 	 }
 	 
-	 private String DateToString(Date date)
-	 {
-		 SimpleDateFormat simple =  new SimpleDateFormat("MM-dd HH:mm" , Locale.CHINA);
-		 return simple.format(date);
-	 }
 	 
 	 public void buildCommentData(Program program)
 	 {
@@ -611,6 +621,29 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 		 setSoftInputVisible(false);
 		 program = buildCommentsTree(program);
 		 mProgramDetail = program;
+		 
+		 //fill comment , checkin ,subscribe count
+		 String tmp = "(";
+		 tmp += String.valueOf(program.getDisscusCount());
+		 tmp += ")";
+		 mCommentCount.setText(tmp.toCharArray() , 0, tmp.length());
+		 
+		 tmp="(";
+		 tmp += String.valueOf(program.getCheckinCount());
+		 tmp +=")";
+		 mCheckinCount.setText(tmp.toCharArray(), 0, tmp.length());
+		 
+		 tmp="(";
+		 tmp += String.valueOf(program.getSubscribeCount());
+		 tmp+=")";
+		 mSubscribeCount.setText(tmp.toCharArray() , 0  , tmp.length());
+		 
+		 //fill cover
+		 if(program.getCover() != null)
+		 {
+			 Bitmap scaleBitmap = Phone2TvComm.resizeBitmap(program.getCover(), 112, 156);
+			 mProgramCover.setImageBitmap(scaleBitmap);
+		 }
 		 mCommentItem.clear();
 		 buildCommentData(program);
 	 }
@@ -620,6 +653,7 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 		 setSoftInputVisible(false);
 		 mInputWidget.setText("");
 		 mReplySrcId = -1;
+		 setInputEditorHint("³©ËùÓûÑÔ");
 		 asycLoadProgramDetail();
 	 }
 	 
@@ -656,7 +690,7 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 			 {
 				 try
 				 {
-					 mHttpSession.requestPostSubscribeOper(mProgramId, 
+					 mHttpSession.requestPostSubscribeOper(mProgramSnapshort.getIndex(),
 							                               mLoginInfo.getAuthToken(), 
 							                               mLoginInfo.getUserId(), 
 							                               true);
@@ -681,7 +715,7 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 			 {
 				 try
 				 {
-					 mHttpSession.requestPostComment(mProgramId, 
+					 mHttpSession.requestPostComment(mProgramSnapshort.getIndex(), 
 							                         mReplySrcId , 
 							                         mLoginInfo.getAuthToken(), 
 							                         mLoginInfo.getUserId(), 
@@ -707,7 +741,7 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 			public void run() {
 				try {
 					JSONObject programJson;
-					programJson = mHttpSession.requestProgramById(mProgramId);
+					programJson = mHttpSession.requestProgramById(mProgramSnapshort.getIndex());
 					Program program = mHttpSession.getProrgamById(programJson);
 					Message msg = new Message();
 					msg.what = 0;
@@ -785,5 +819,10 @@ public class ProgramCommentActivity extends Activity implements OnClickListener 
 			imageView.setImageResource(R.drawable.active_button);
 			break;
 		}
+	}
+	
+	private void setInputEditorHint(CharSequence hint)
+	{
+		mInputWidget.setHint(hint);
 	}
 }

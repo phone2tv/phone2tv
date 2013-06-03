@@ -6,8 +6,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.util.Base64;
 
 public class Phone2TvComm 
 {
@@ -95,5 +99,48 @@ public class Phone2TvComm
 	 {
 		 SimpleDateFormat simple =  new SimpleDateFormat(strFormat , Locale.CHINA);
 		 return simple.format(date);
+	 }
+	 
+	 public static Bitmap base64ToBitmap(String str)
+	 {
+		 Bitmap bitmap=null;
+		 try 
+		 {
+			 byte[] bitmapArray;
+			 bitmapArray=Base64.decode(str, Base64.DEFAULT);
+			 bitmap=BitmapFactory.decodeByteArray(bitmapArray, 0, bitmapArray.length);
+
+		 }
+		 catch (Exception e) 
+		 {
+			 e.printStackTrace();
+		 }
+		 return bitmap;
+	 }
+	 
+	 public static Bitmap resizeBitmap(Bitmap map , int w , int h)
+	 {
+		 Bitmap targetBitmap = null;
+		 int oldWidth = map.getWidth();
+		 int oldHeight = map.getHeight();
+		 float scale = 0;
+		 float wscale = (float)w/oldWidth;
+		 float hscale = (float)h/oldHeight;
+		 int compareW = (int)(wscale * 100);
+		 int compareH = (int)(hscale * 100);
+		 if(compareW > 100 && compareH > 100)
+		 {
+			 scale = (float)1.0;
+		 }
+		 else
+		 {
+			 scale = (float)(compareW > compareH ? compareH : compareW)/100;
+		 }
+	
+		 Matrix matrix = new Matrix();
+	        
+	     matrix.postScale(scale, scale);
+	     targetBitmap = Bitmap.createBitmap(map, 0, 0 , oldWidth, oldHeight , matrix , true);
+		 return targetBitmap;
 	 }
 }

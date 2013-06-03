@@ -47,6 +47,7 @@ public class ProgramListAdapter extends SimpleAdapter {
 		holder.mBeginTime = (TextView)convertView.findViewById(R.id.broadcast_begin_time);
 		holder.mEndTime   = (TextView)convertView.findViewById(R.id.broadcast_end_time);
 		holder.mProgramName = (TextView)convertView.findViewById(R.id.program_name);
+		holder.mDisscussNum = (TextView)convertView.findViewById(R.id.program_discuss_num);
 		convertView.setTag(holder);
 	}
 	
@@ -70,6 +71,11 @@ public class ProgramListAdapter extends SimpleAdapter {
 		tmp = one.getProgramName();
 		holder.mProgramName.setText(tmp.toCharArray() , 0 , tmp.length());
 		holder.mProgramName.setTextColor(color);
+		
+		tmp = "ÆÀÂÛ:";
+		tmp += String.valueOf(one.getDisscusCount());
+		holder.mDisscussNum.setText(tmp.toCharArray() , 0 , tmp.length());
+		holder.mDisscussNum.setTextColor(color);
 	}
 	
 	public View getView(int position, View convertView, ViewGroup parent) 

@@ -57,12 +57,14 @@
             android:src="@drawable/banner_default" 
             android:layout_centerInParent="true"/>
         <RelativeLayout
+            android:id="@+id/relativelayout_banner"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
             android:layout_alignLeft="@+id/image_tvchannel_banner"
             android:layout_alignBottom="@+id/image_tvchannel_banner"
             android:layout_alignRight="@+id/image_tvchannel_banner"
-            android:background="#BF000000">
+            android:background="#BF000000"
+            android:clickable="true">
             <TextView
                 android:id="@+id/text_curprogram"
                 android:layout_width="wrap_content"

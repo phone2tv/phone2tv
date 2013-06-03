@@ -55,9 +55,10 @@
             <ImageView
                 android:id="@+id/image_introduce_background"
                 android:layout_width="match_parent"
-                android:layout_height="119dp"
+                android:layout_height="match_parent"
                 android:scaleType="fitXY"
-                android:src="@drawable/arc_background" />
+                android:src="@drawable/arc_background"
+                android:layout_alignBottom="@+id/relativeLayout1"/>
 
             <ImageView
                 android:id="@+id/image_program_cover"
@@ -66,7 +67,6 @@
                 android:layout_alignParentLeft="true"
                 android:layout_marginTop="7dp"
                 android:layout_marginLeft="7dp"
-                android:layout_below="@+id/linearLayout1"
                 android:src="@drawable/cover_default" />
 
             <RelativeLayout
@@ -75,20 +75,14 @@
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop = "7dp"
                 android:layout_toRightOf="@+id/image_program_cover"
-                android:orientation="horizontal" >
+                android:layout_alignWithParentIfMissing="true">
 
-                <ImageView
-                    android:id="@+id/channel_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/channel_icon_hunan" 
-                    android:visibility="gone"/>
+
 
                 <TextView
                     android:id="@+id/text_channel_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@+id/channel_icon"
                     android:text="CCTV1-新闻综合"
                     android:textColor="#484848"
                     android:textSize="12sp"
@@ -106,7 +100,7 @@
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true" >
+                    android:layout_alignParentRight="true">
 
                     <TextView
                         android:id="@+id/text_hot"
@@ -159,7 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignStart="@+id/text_channel_name"
                     android:layout_below="@+id/text_channel_name"
-                    android:text="主持人：何炅 谢娜等|地区：内地\n湖南卫视湖南卫视湖南卫视湖南卫视"
+                    android:text="简介: "
                     android:textSize="10sp" />
             </RelativeLayout>
 
@@ -167,8 +161,8 @@
                 android:id="@+id/relativeLayout1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/image_introduce_background"
-                android:layout_marginTop="7dp" >
+                android:layout_below="@+id/image_program_cover"
+                android:layout_marginTop="22dp" >
 
                 <RelativeLayout
                 	android:id="@+id/relativelayout_comment_bt"
@@ -188,7 +182,7 @@
                     	android:layout_alignBottom="@+id/image_comment_bt"
                     	android:layout_marginBottom="3dp"
                     	android:textColor="#4976CB"
-                    	android:text="(158)"
+                    	android:text="(0)"
                     	android:textSize="10sp" />
                 </RelativeLayout>
                 
@@ -211,7 +205,7 @@
                     	android:layout_alignBottom="@+id/image_sub_bt"
                     	android:layout_marginBottom="3dp"
                     	android:textColor="#4976CB"
-                    	android:text="(158)"
+                    	android:text="(0)"
                     	android:textSize="10sp"/>
                 </RelativeLayout>
 
@@ -234,7 +228,7 @@
                     	android:layout_alignBottom="@+id/image_checkin_bt"
                     	android:layout_marginBottom="3dp"
                     	android:textColor="#4976CB"
-                    	android:text="(158)"
+                    	android:text="(0)"
                     	android:textSize="10sp"/>
                 </RelativeLayout>
                 
@@ -292,47 +286,59 @@
             android:id="@+id/layout_program_relative"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom = "true">
+            android:layout_alignParentBottom="true">
 
-            <ImageView
-                android:id="@+id/image_input_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:src="@drawable/input_left" />
+           
 
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" 
-                android:layout_toLeftOf="@+id/image_input_right"
-                android:layout_toRightOf="@+id/image_input_left">
-
-                <ImageView
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true" 
+                android:layout_alignBottom="@+id/input_editText1">
+            
+                 <ImageView
+                     android:id="@+id/image_input_left"
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_alignParentLeft="true"
+                     android:scaleType="fitXY"
+                     android:src="@drawable/input_left" />
+                
+                 <ImageView
                     android:id="@+id/image_input_middle"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:scaleType="fitXY"
-                    android:src="@drawable/input_middle" />
+                    android:src="@drawable/input_middle" 
+                    android:layout_toRightOf="@+id/image_input_left"
+                    android:layout_toLeftOf="@+id/image_input_right"/>
+
+                 <ImageView
+                     android:id="@+id/image_input_right"
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_alignParentRight="true"
+                     android:clickable="true"
+                     android:scaleType="fitXY"
+                     android:src="@drawable/input_right" />
+
+            </RelativeLayout>
 
                 <EditText
                     android:id="@+id/input_editText1"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14dp"
+                    android:layout_marginRight="66dp"
+                    android:paddingTop="8dp"
                     android:background="@null"
-                    android:hint="畅所欲言" 
-                    android:paddingTop="8dp">
+                    android:hint="畅所欲言" >
                     <requestFocus/>
                 </EditText>
 
-            </FrameLayout>
+       
 
-            <ImageView
-                android:id="@+id/image_input_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/input_right" 
-                android:clickable="true"/>
+            
 
         </RelativeLayout>
 

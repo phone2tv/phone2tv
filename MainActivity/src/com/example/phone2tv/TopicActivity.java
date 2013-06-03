@@ -2,6 +2,7 @@ package com.example.phone2tv;
 
 import java.util.ArrayList;
 import org.json.JSONArray;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,12 +15,16 @@ import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem.Type;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
 import greendroid.widget.PageIndicator;
 import greendroid.widget.PagedAdapter;
 import greendroid.widget.PagedView;
@@ -37,13 +42,17 @@ public class TopicActivity extends GDActivity implements OnClickListener , OnTou
 	private PageIndicator      mPageIndicatorRight = null;
 	
 	
+	@SuppressLint("NewApi")
 	protected void onCreate(Bundle savedInstanceState) 
     {
         super.onCreate(savedInstanceState);
         setActionBarContentView(R.layout.mytopics_view);
         setTitle("Œ“µƒ ’≤ÿ");
-        
-        Intent intent = getIntent(); 
+        ActionBarItem itemReturn = addActionBarItem(getActionBar()
+                .newActionBarItem(NormalActionBarItem.class)
+                .setDrawable(R.drawable.actionbar_refresh) , R.id.action_bar_refresh);
+        View view = itemReturn.getItemView();
+        Intent intent = getIntent();
         mLoginInfo = Phone2TvComm.getLoginInfoFromIntent(intent);
         mHttpSession = new NetworkAdapter(mLoginInfo.getServerAddress() , 
         		                          mLoginInfo.getServerPort());
@@ -339,6 +348,18 @@ public class TopicActivity extends GDActivity implements OnClickListener , OnTou
 			break;
 		}
 		return false;
+	}
+	
+	public boolean onHandleActionBarItemClick(ActionBarItem item, int position)
+	{
+		switch (item.getItemId())
+		{
+		case R.id.action_bar_refresh:
+			asyncLoadSubscribes();
+			asyncLoadHotSubscribes();
+			break;
+		}
+		return true;
 	}
 }
 

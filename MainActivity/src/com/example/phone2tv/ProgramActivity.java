@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -33,7 +34,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.json.JSONObject;
 
-public class ProgramActivity extends Activity
+public class ProgramActivity extends Activity implements OnClickListener
 {
 	private static final String TAG = "ProgramActivity";
 	private Phone2TvTabHost mTimeLineTab;
@@ -45,7 +46,6 @@ public class ProgramActivity extends Activity
 	private ListView m_programList;
 	private ArrayList<HashMap<String, Object>> m_currentProgram;
 	private HashMap<Integer, ArrayList<HashMap<String, Object>>> m_programParades;
-	// SimpleAdapter m_programAdapter;
 	ProgramListAdapter m_programAdapter;
 	NetworkAdapter m_httpSession;
 	View m_progressView;
@@ -56,6 +56,8 @@ public class ProgramActivity extends Activity
 	TextView mIntroduceView = null;
 	TextView mBroadcastRateView = null;
 	TextView mWatchingCountView = null;
+	View mBanner = null;
+	Program mCurrentBroadcastingProgram =null;
 
 	LoginInfo mLoginInfo = null;
 	TvStationProgram mTvStation = null;
@@ -71,6 +73,8 @@ public class ProgramActivity extends Activity
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.tab_timeline_view);
+		mBanner = findViewById(R.id.relativelayout_banner);
+		mBanner.setOnClickListener(this);
 		m_programParades = new HashMap<Integer, ArrayList<HashMap<String, Object>>>();
 		Intent intent = getIntent();
 		mLoginInfo = Phone2TvComm.getLoginInfoFromIntent(intent);
@@ -150,7 +154,7 @@ public class ProgramActivity extends Activity
 						R.id.broadcast_begin_time, R.id.broadcast_end_time,
 						R.id.program_name, R.id.program_discuss_num });
 		m_programList.setAdapter(m_programAdapter);
-		m_programList.setOnItemClickListener(m_listOnItemClick);
+		m_programList.setOnItemClickListener(mlistOnItemClick);
 		m_programList.setOnItemLongClickListener(mListOnItemLongClick);
 		m_programList.setOnScrollListener(new OnScrollListener()
 		{
@@ -271,6 +275,7 @@ public class ProgramActivity extends Activity
 		{
 			if(broadcasting(program.getBeginTime() , program.getEndTime()))
 			{
+				mCurrentBroadcastingProgram = program;
 				Log.d(TAG , "broad casting: "+program.getProgramName());
 				int rate = computerBroadcastRate(program.getBeginTime() , program.getEndTime());
 				if( rate > 0)
@@ -414,30 +419,37 @@ public class ProgramActivity extends Activity
 		}.start();
 	}
 
-	AdapterView.OnItemClickListener m_listOnItemClick = new AdapterView.OnItemClickListener()
+	AdapterView.OnItemClickListener mlistOnItemClick = new AdapterView.OnItemClickListener()
 	{
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
 			int currentTabId = mTimeLineTab.getCurrentTabPos();
 			ArrayList<HashMap<String, Object>> list = getItemListByDayOffset(currentTabId);
-			Intent intent = new Intent();
-			intent.setClass(ProgramActivity.this, ProgramCommentActivity.class);
+			//Intent intent = new Intent();
+			//intent.setClass(ProgramActivity.this, ProgramCommentActivity.class);
 			Program selectOne = (Program) list.get(arg2 - 1).get("program");
-			String programName = selectOne.getProgramName();
-			Integer programId = selectOne.getIndex();
-			intent.putExtra("program_name", programName);
-			intent.putExtra("program_id", programId);
-			intent.putExtra("auth_token", mLoginInfo.getAuthToken());
-			intent.putExtra("user_id", mLoginInfo.getUserId());
-			intent.putExtra("server_address", mLoginInfo.getServerAddress());
-			intent.putExtra("server_port", mLoginInfo.getServerPort());
-			Bundle bundle = new Bundle();
-			bundle = Phone2TvComm.putLoginInfo(bundle, mLoginInfo);
-			intent.putExtras(bundle);
-			startActivity(intent);
+			//Bundle bundle = new Bundle();
+			//bundle = Phone2TvComm.putLoginInfo(bundle, mLoginInfo);
+			//bundle = Phone2TvComm.putTvStation(bundle, mTvStation);
+			//bundle = Phone2TvComm.putProgram(bundle, selectOne);
+			//intent.putExtras(bundle);
+			//startActivity(intent);
+			startProgramCommentActivity(selectOne , mLoginInfo , mTvStation);
 		}
 	};
+	
+	protected void startProgramCommentActivity(Program program , LoginInfo info , TvStationProgram tv)
+	{
+		Intent intent = new Intent();
+		intent.setClass(ProgramActivity.this, ProgramCommentActivity.class);
+		Bundle bundle = new Bundle();
+		bundle = Phone2TvComm.putLoginInfo(bundle, info);
+		bundle = Phone2TvComm.putTvStation(bundle, tv);
+		bundle = Phone2TvComm.putProgram(bundle, program);
+		intent.putExtras(bundle);
+		startActivity(intent);
+	}
 
 	protected void finishAsyncLoad()
 	{
@@ -547,5 +559,18 @@ public class ProgramActivity extends Activity
 			return -1;
 		}
 
+	}
+
+	@Override
+	public void onClick(View v)
+	{
+		// TODO Auto-generated method stub
+		switch(v.getId())
+		{
+		case R.id.relativelayout_banner:
+			if(mCurrentBroadcastingProgram !=  null)
+				startProgramCommentActivity(mCurrentBroadcastingProgram , mLoginInfo  , mTvStation);
+			break;
+		}
 	}
 }

@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Locale;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
 import com.example.phone2tv.TvStationProgram;
@@ -67,6 +68,14 @@ public class NetworkAdapter
 		try
 		{
 			oneProgram.setIndex(programJson.getInt("id"));
+			
+			//change base64 to img
+			String base64img = programJson.getString("image");
+			Bitmap cover = null;
+			if(base64img != null)
+				cover = Phone2TvComm.base64ToBitmap(base64img);
+			
+			oneProgram.setCover(cover);
 			int discussCount = programJson.getInt("discuss_count");
 			JSONArray discussJson = programJson.getJSONArray("latest_discusses");
 			Comment oneComment = null;
